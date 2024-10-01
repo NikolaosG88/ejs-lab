@@ -51,18 +51,31 @@ const RESTAURANT = {
   ]
 }
 
-// const timeFrame = {
-//  working: 'We are open',
-// };
 
 
 app.get('/', (req, res) => {
   res.render('home.ejs', {
     RESTAURANT: RESTAURANT,
-    // timeFrame: timeFrame,
   });
 
 });
+
+app.get('/menu', (req, res) => {
+
+  res.render('menu.ejs', {
+   menu: RESTAURANT.menu,
+  });
+  });
+
+  app.get('/menu/:category', (req, res) => {
+    let category = req.params.category;
+    const menuItems = RESTAURANT.menu.filter(item => item.category === category);
+    const capitalL = category[0].toUpperCase() + category.slice(1)
+      res.render('category.ejs', {
+        menuItems: menuItems,
+        category: capitalL,
+      });
+      });
 
 app.listen(3000, () => {
   console.log('Express is listening on port 3000');
